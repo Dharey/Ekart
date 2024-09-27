@@ -13,12 +13,12 @@ pipeline {
         SCANNER_HOME= tool 'sonar-scanner'
     }
     
-    // stages {
-    //     stage('Git Checkout') {
-    //         steps {
-    //             git branch: 'main', changelog: false, credentialsId: '22e67b0a-623b-4b3c-83c8-e3765dd6f400', poll: false, url: 'https://github.com/Dharey/Ekart.git'
-    //         }
-    //     }
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main', changelog: false, credentialsId: 'GitHubCred', poll: false, url: 'https://github.com/Dharey/Ekart.git'
+            }
+        }
             
         stage('Compile') {
            steps {
