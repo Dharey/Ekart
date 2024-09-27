@@ -37,9 +37,9 @@ pipeline {
         stage('SonarQube') {
            steps {
                withSonarQubeEnv('SonarQube') {
-                   sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Shopping-Cart \
+                   sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=shopping-cart \
                    -Dsonar.java.binaries=. \
-                   -Dsonar.projectKey=Shopping-Cart '''
+                   -Dsonar.projectKey=shopping-cart '''
                }
             }
         }
@@ -85,15 +85,5 @@ pipeline {
             }
         }
         
-        // stage('Docker Deploy') {
-        //    steps {
-        //        script {
-        //            withDockerRegistry(credentialsId: '709434db-7916-42e4-b13f-a6254ef242b0', toolName: 'docker') {
-                       
-        //                sh "docker run -d --name shopping-website -p 8070:8070 oluwaseyi12/shopping-cart:latest"
-        //            }
-        //        }   
-        //     }
-        // }
     }
 }
