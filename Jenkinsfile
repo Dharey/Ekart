@@ -77,8 +77,8 @@ pipeline {
                 script {
                     // Assuming kubectl is installed locally in the Jenkins environment
                     sh '''
-                        # Substitute environment variables in deploy.yaml and apply to Kubernetes
-                        envsubst < ${WORKSPACE}/deploy.yaml | ./kubectl apply -f -
+                        # Substitute environment variables in deploymentservice.yml and apply to Kubernetes
+                        envsubst < ${WORKSPACE}/deploymentservice.yml | ./kubectl apply -f -
                     '''
                     }
                 }
