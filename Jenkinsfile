@@ -6,6 +6,10 @@ pipeline {
     }
     
     environment {
+        SERVICE_NAME = "shopping-cart"
+        ORGANIZATION_NAME = "deetechpro"
+        DOCKERHUB_USERNAME = "oluwaseyi12"
+        REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${ORGANIZATION_NAME}-${SERVICE_NAME}:${BUILD_ID}"
         SCANNER_HOME= tool 'sonar-scanner'
     }
     
@@ -50,14 +54,13 @@ pipeline {
            steps {
                script {
                    withDockerRegistry(credentialsId: 'ffaac626-63cf-4189-83a8-36c94673a414', toolName: 'docker') {
-                       
-                       sh "docker build -t shopping-cart -f docker/Dockerfile ."
-                       sh "docker tag shopping-cart oluwaseyi12/shopping-cart:latest"
-                       sh "docker push oluwaseyi12/shopping-cart:latest"
+                       sh 'docker build -t ${REPOSITORY_TAG} .'
+                       sh 'docker push ${REPOSITORY_TAG}'
                    }
                }   
             }
         }
+    
         stage("Install kubectl"){
             steps {
                 sh """
