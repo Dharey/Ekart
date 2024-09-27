@@ -9,12 +9,12 @@ pipeline {
         SCANNER_HOME= tool 'sonar-scanner'
     }
     
-    stages {
-        stage('Git Checkout') {
-            steps {
-                git branch: 'main', changelog: false, credentialsId: '22e67b0a-623b-4b3c-83c8-e3765dd6f400', poll: false, url: 'https://github.com/Dharey/Ekart.git'
-            }
-        }
+    // stages {
+    //     stage('Git Checkout') {
+    //         steps {
+    //             git branch: 'main', changelog: false, credentialsId: '22e67b0a-623b-4b3c-83c8-e3765dd6f400', poll: false, url: 'https://github.com/Dharey/Ekart.git'
+    //         }
+    //     }
             
         stage('Compile') {
            steps {
@@ -49,13 +49,36 @@ pipeline {
         stage('Docker Build & Push') {
            steps {
                script {
-                   withDockerRegistry(credentialsId: '709434db-7916-42e4-b13f-a6254ef242b0', toolName: 'docker') {
+                   withDockerRegistry(credentialsId: 'ffaac626-63cf-4189-83a8-36c94673a414', toolName: 'docker') {
                        
                        sh "docker build -t shopping-cart -f docker/Dockerfile ."
                        sh "docker tag shopping-cart oluwaseyi12/shopping-cart:latest"
                        sh "docker push oluwaseyi12/shopping-cart:latest"
                    }
                }   
+            }
+        }
+        stage("Install kubectl"){
+            steps {
+                sh """
+                    curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+                    chmod +x ./kubectl
+                    ./kubectl version --client
+                """
+            }
+        }
+    
+        stage('Deploy to Kubernetes') {
+            steps {
+                withKubeConfig([credentialsId: 'k8scred']) {
+                script {
+                    // Assuming kubectl is installed locally in the Jenkins environment
+                    sh '''
+                        # Substitute environment variables in deploy.yaml and apply to Kubernetes
+                        envsubst < ${WORKSPACE}/deploy.yaml | ./kubectl apply -f -
+                    '''
+                    }
+                }
             }
         }
         
