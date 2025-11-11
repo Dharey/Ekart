@@ -21,47 +21,12 @@ pipeline {
             }
         }
 
-        stage('Check Java Setup') {
-            steps {
-                sh '''
-                    echo "JAVA_HOME=${JAVA_HOME}"
-                    which java
-                    java -version
-                '''
-            }
-        }
-
-
         stage('Compile') {
            steps {
                sh 'java -version'
                sh "mvn clean compile -DskipTests=true"
             }
         }
-
-        // stage('Compile') {
-        //    steps {
-        //        sh "mvn clean compile -DskipTests=true"
-        //     }
-        // }
-        
-        // stage('OWASP SCAN') {
-        //    steps {
-        //         dependencyCheck additionalArguments: '--scan ./ ', odcInstallation: 'Dependency_Security_Check'
-        
-        //         dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-        //     }
-        // }
-        
-        // stage('SonarQube') {
-        //    steps {
-        //        withSonarQubeEnv('SonarQube') {
-        //            sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=shopping-cart \
-        //            -Dsonar.java.binaries=. \
-        //            -Dsonar.projectKey=shopping-cart '''
-        //        }
-        //     }
-        // }
         
         stage('Build') {
            steps {
@@ -77,7 +42,7 @@ pipeline {
                    }
                }   
             }
-        }
+        
         stage("Install kubectl"){
             steps {
                 sh """
