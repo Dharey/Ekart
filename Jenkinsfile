@@ -9,7 +9,7 @@ pipeline {
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
         SERVICE_NAME = "shopping-cart"
         ORGANIZATION_NAME = "deetechpro"
-        DOCKERHUB_USERNAME = "Docker_Username_Var"
+        DOCKERHUB_USERNAME = "oluwaseyi12"
         REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${ORGANIZATION_NAME}-${SERVICE_NAME}:${BUILD_ID}"
         //SCANNER_HOME= tool 'sonar-scanner'
     }
