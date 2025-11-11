@@ -4,11 +4,14 @@ pipeline {
         jdk "Java_17"
         maven "Java_Maven"
     }
-    
     environment {
+
+        JAVA_HOME = tool(name: 'Java_17', type: 'hudson.model.JDK')
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+        M2_HOME = tool(name: 'Java_Maven', type: 'hudson.tasks.Maven$MavenInstallation')
         SERVICE_NAME = "shopping-cart"
         ORGANIZATION_NAME = "deetechpro"
-        DOCKERHUB_USERNAME = "oluwaseyi12"
+        DOCKERHUB_USERNAME = "Docker_Username_Var"
         REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${ORGANIZATION_NAME}-${SERVICE_NAME}:${BUILD_ID}"
         //SCANNER_HOME= tool 'sonar-scanner'
     }
