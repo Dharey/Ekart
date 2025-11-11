@@ -43,6 +43,7 @@ pipeline {
         //        }
         //     }
         // }
+        // Testing githum automation
         
         stage('Build') {
            steps {
