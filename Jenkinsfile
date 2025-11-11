@@ -65,7 +65,7 @@ pipeline {
         
         stage('Deploy to Kubernetes') {
             steps {
-                withKubeConfig([credentialsId: 'Kubernetes']) {
+                withKubeConfig([credentialsId: 'kubernetes']) {
                 script {
                     // Assuming kubectl is installed locally in the Jenkins environment
                     sh '''
