@@ -22,12 +22,25 @@ pipeline {
                 git branch: 'main', changelog: false, credentialsId: 'GitHubCred', poll: false, url: 'https://github.com/Dharey/Ekart.git'
             }
         }
-            
-        stage('Compile') {
-           steps {
-               sh "mvn clean compile -DskipTests=true"
+
+    stage('Compile') {
+        steps {
+            script {
+                def jdkHome = tool name: 'Java_17', type: 'hudson.model.JDK'
+                env.JAVA_HOME = jdkHome
+                env.PATH = "${jdkHome}/bin:${env.PATH}"
+                sh 'echo "Using JAVA_HOME=$JAVA_HOME"'
+                sh 'java -version'
+                sh 'mvn clean compile -DskipTests=true'
+                }
             }
         }
+
+        // stage('Compile') {
+        //    steps {
+        //        sh "mvn clean compile -DskipTests=true"
+        //     }
+        // }
         
         // stage('OWASP SCAN') {
         //    steps {
