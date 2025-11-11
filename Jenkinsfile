@@ -71,8 +71,7 @@ pipeline {
         
         stage('Docker Build & Push') {
            steps {
-               script {
-                   withDockerRegistry(credentialsId: 'dockerhub', url: '') {
+                   withDockerRegistry([credentialsId: 'DOCKERHUB_USERNAME', url: ""]) {
                        sh 'docker build -t ${REPOSITORY_TAG} .'
                        sh 'docker push ${REPOSITORY_TAG}'
                    }
