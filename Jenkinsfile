@@ -5,6 +5,8 @@ pipeline {
         maven "Java_Maven"
     }
     environment {
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
         SERVICE_NAME = "shopping-cart"
         ORGANIZATION_NAME = "deetechpro"
         DOCKERHUB_USERNAME = "Docker_Username_Var"
@@ -32,6 +34,7 @@ pipeline {
 
         stage('Compile') {
            steps {
+               sh 'java -version'
                sh "mvn clean compile -DskipTests=true"
             }
         }
