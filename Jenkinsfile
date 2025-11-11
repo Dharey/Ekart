@@ -1,14 +1,10 @@
 pipeline {
     agent any
     tools{
-        jdk "Java_17"
+        jdk "Java_JDK"
         maven "Java_Maven"
     }
     environment {
-
-        JAVA_HOME = tool(name: 'Java_17', type: 'hudson.model.JDK')
-        PATH = "${JAVA_HOME}/bin:${env.PATH}"
-        M2_HOME = tool(name: 'Java_Maven', type: 'hudson.tasks.Maven$MavenInstallation')
         SERVICE_NAME = "shopping-cart"
         ORGANIZATION_NAME = "deetechpro"
         DOCKERHUB_USERNAME = "Docker_Username_Var"
@@ -23,16 +19,20 @@ pipeline {
             }
         }
 
-    stage('Compile') {
-        steps {
-            script {
-                def jdkHome = tool name: 'Java_17', type: 'hudson.model.JDK'
-                env.JAVA_HOME = jdkHome
-                env.PATH = "${jdkHome}/bin:${env.PATH}"
-                sh 'echo "Using JAVA_HOME=$JAVA_HOME"'
-                sh 'java -version'
-                sh 'mvn clean compile -DskipTests=true'
-                }
+        stage('Check Java Setup') {
+            steps {
+                sh '''
+                    echo "JAVA_HOME=${JAVA_HOME}"
+                    which java
+                    java -version
+                '''
+            }
+        }
+
+
+        stage('Compile') {
+           steps {
+               sh "mvn clean compile -DskipTests=true"
             }
         }
 
