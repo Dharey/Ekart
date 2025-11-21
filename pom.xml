@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.reljicd</groupId>
@@ -14,35 +16,35 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.3.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>2.7.13</version>
+        <relativePath/>
     </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-        <jacoco.version>0.8.6</jacoco.version>
-    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-    <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-    <sonar.language>java</sonar.language>
+        <java.version>17</java.version>
+        <jacoco.version>0.8.10</jacoco.version>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.language>java</sonar.language>
     </properties>
 
     <dependencies>
-        <!-- Data JPA -->
+        <!-- Spring Data JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- Data REST -->
+        <!-- Spring Data REST -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
 
-        <!--HAL REST Browser -->
+        <!-- HAL REST Browser -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-rest-hal-browser</artifactId>
@@ -60,32 +62,33 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <!-- Thymeleaf Spring Security Extras -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
 
-        <!-- Spring MVC -->
+        <!-- Spring Web MVC -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- hot swapping, disable cache for template, enable live reload -->
+        <!-- Devtools -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <!-- H2 -->
+        <!-- H2 Database -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <!-- MySQL -->
+        <!-- MySQL Connector -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -99,18 +102,12 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Optional, for bootstrap -->
+        <!-- Webjars -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
             <version>3.3.7</version>
         </dependency>
-             <dependency>
-    <groupId>org.jacoco</groupId> 
-    <artifactId>jacoco-maven-plugin</artifactId>
-    <version>0.8.6</version>
-</dependency>
-        <!-- Optional, for jQuery -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
@@ -120,58 +117,58 @@
 
     <build>
         <plugins>
+            <!-- Spring Boot Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.13</version>
             </plugin>
 
-    <plugin>
-    <groupId>org.jacoco</groupId>
-    <artifactId>jacoco-maven-plugin</artifactId>
-    <version>0.8.10</version>
-    <executions>
-        <execution>
-            <id>jacoco-initialize</id>
-            <goals>
-                <goal>prepare-agent</goal>
-            </goals>
-        </execution>
-        <execution>
-            <id>jacoco-site</id>
-            <phase>package</phase>
-            <goals>
-                <goal>report</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
-<!-- Snyk Configuration -->
-    <plugin>
-      <groupId>io.snyk</groupId>
-      <artifactId>snyk-maven-plugin</artifactId>
-      <version>2.0.0</version>
-      <inherited>false</inherited>
-      <configuration>
-        <org>3be9af4b-29a7-4cfe-9e4b-4579dabdc20e</org>
-      </configuration>
-    </plugin>
-<!-- Snyk Changes for SCA Ends Here -->
+            <!-- Jacoco Plugin -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.10</version>
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-site</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
+            <!-- Snyk Plugin -->
+            <plugin>
+                <groupId>io.snyk</groupId>
+                <artifactId>snyk-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <inherited>false</inherited>
+                <configuration>
+                    <org>3be9af4b-29a7-4cfe-9e4b-4579dabdc20e</org>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
-         <distributionManagement>
-    <repository>
-      <id>maven-releases</id>
-      <name>maven-releases</name>
-      <url>http://3.108.254.192:8081/repository/maven-releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>maven-snapshots</id>
-      <name>maven-snapshots</name>
-      <url>http://3.108.254.192:8081/repository/maven-snapshots/</url>
-    </snapshotRepository>
-</distributionManagement>
-
-
+    <distributionManagement>
+        <repository>
+            <id>maven-releases</id>
+            <name>maven-releases</name>
+            <url>http://3.108.254.192:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <name>maven-snapshots</name>
+            <url>http://3.108.254.192:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
