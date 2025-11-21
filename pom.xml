@@ -48,6 +48,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-rest-hal-browser</artifactId>
+            <version>3.7.0</version> <!-- compatible with Spring Boot 2.7.x -->
         </dependency>
 
         <!-- Spring Security -->
@@ -92,7 +93,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
+            <version>8.0.33</version> <!-- latest stable -->
         </dependency>
 
         <!-- Tests -->
