@@ -125,7 +125,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-                 <plugin>
+    <plugin>
     <groupId>org.jacoco</groupId>
     <artifactId>jacoco-maven-plugin</artifactId>
     <version>${jacoco.version}</version>
@@ -145,6 +145,18 @@
         </execution>
     </executions>
 </plugin>
+<!-- Snyk Configuration -->
+    <plugin>
+      <groupId>io.snyk</groupId>
+      <artifactId>snyk-maven-plugin</artifactId>
+      <version>2.0.0</version>
+      <inherited>false</inherited>
+      <configuration>
+        <org>3be9af4b-29a7-4cfe-9e4b-4579dabdc20e</org>
+      </configuration>
+    </plugin>
+<!-- Snyk Changes for SCA Ends Here -->
+
         </plugins>
     </build>
 
