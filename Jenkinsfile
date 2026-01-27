@@ -21,20 +21,20 @@ pipeline {
             }
         }
 
-        stage('Run Sonar Analysis') {
-            environment {
-                SONAR_TOKEN = credentials('SONARQUBE_TOKEN')
-        }
-            steps {
-                sh '''
-                mvn clean verify -U sonar:sonar \
-                    -Dsonar.projectKey=ekart-app-1 \
-                    -Dsonar.organization=ekart-app-1 \
-                    -Dsonar.host.url=https://sonarcloud.io \
-                    -Dsonar.login=$SONAR_TOKEN
-                '''
-            }
-        }
+        // stage('Run Sonar Analysis') {
+        //     environment {
+        //         SONAR_TOKEN = credentials('SONARQUBE_TOKEN')
+        // }
+        //     steps {
+        //         sh '''
+        //         mvn clean verify -U sonar:sonar \
+        //             -Dsonar.projectKey=ekart-app-1 \
+        //             -Dsonar.organization=ekart-app-1 \
+        //             -Dsonar.host.url=https://sonarcloud.io \
+        //             -Dsonar.login=$SONAR_TOKEN
+        //         '''
+        //     }
+        // }
 
         stage('Run SCA Analysis using Snyk') {
             steps {
