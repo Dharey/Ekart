@@ -27,7 +27,7 @@ pipeline {
         }
             steps {
                 sh '''
-                mvn clean verify sonar:sonar \
+                mvn clean verify -U sonar:sonar \
                     -Dsonar.projectKey=ekart-app-1 \
                     -Dsonar.organization=ekart-app-1 \
                     -Dsonar.host.url=https://sonarcloud.io \
