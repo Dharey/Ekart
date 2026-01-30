@@ -48,9 +48,9 @@ pipeline {
         stage('Deploy to Nexus') {
             steps {
                 // 'my-nexus-id' is the ID you gave the credential in Jenkins
-                withCredentials([usernamePassword(credentialsId: 'my-nexus-id', 
-                                                 usernameVariable: 'NEXUS_USER', 
-                                                 passwordVariable: 'NEXUS_PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'nexus-deploy-creds', 
+                                    usernameVariable: 'NEXUS_USER', 
+                                    passwordVariable: 'NEXUS_PASSWORD')]) {
                     sh "mvn clean compile -DskipTests=true"
                     sh "mvn clean package -DskipTests=true"
                     sh 'mvn deploy -s settings.xml'
