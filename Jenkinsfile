@@ -21,7 +21,6 @@ pipeline {
             steps {
                 git branch: 'main',
                     changelog: false,
-                    credentialsId: 'github-credentials',
                     poll: false,
                     url: 'https://github.com/Dharey/Ekart.git'
             }

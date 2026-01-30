@@ -1,13 +1,15 @@
 <pluginGroups>
     <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
 </pluginGroups>
+
+<profiles>
     <profile>
-        <id>nexus-deploy-creds</id>
+        <id>sonar</id>
         <activation>
             <activeByDefault>true</activeByDefault>
         </activation>
         <properties>
-
-            <sonar.host.url></sonar.host.url>
+            <sonar.host.url>https://sonarqube.deetechpro.com</sonar.host.url>
         </properties>
     </profile>
+</profiles>
