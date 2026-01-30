@@ -48,8 +48,8 @@ pipeline {
         stage('Deploy to Nexus') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'nexus-deploy-creds', 
-                                    usernameVariable: 'NEXUS_USER', 
-                                    passwordVariable: 'NEXUS_PASSWORD')]) {
+                        usernameVariable: 'NEXUS_USER', 
+                        passwordVariable: 'NEXUS_PASSWORD')]) {
                     sh "mvn clean compile -DskipTests=true"
                     sh "mvn clean package -DskipTests=true"
                     sh 'mvn deploy -s settings.xml'
@@ -93,10 +93,11 @@ pipeline {
                         # Substitute environment variables in deploymentservice.yml and apply to Kubernetes
                         envsubst < ${WORKSPACE}/deploymentservice.yml | ./kubectl apply -f -
                     '''
+                        }
                     }
                 }
             }
-        }
         
+        }
     }
 }
