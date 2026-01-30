@@ -21,7 +21,7 @@ pipeline {
             steps {
                 git branch: 'main',
                     changelog: false,
-                    credentialsId: 'GitHubCred',
+                    credentialsId: 'github-credentials',
                     poll: false,
                     url: 'https://github.com/Dharey/Ekart.git'
             }
@@ -35,7 +35,6 @@ pipeline {
                 sh '''
                 mvn clean verify -U sonar:sonar \
                     -Dsonar.projectKey=ekart-app-1 \
-                    -Dsonar.organization=ekart-app-1 \
                     -Dsonar.host.url=https://sonarqube.deetechpro.com \
                     -Dsonar.login=$SONAR_TOKEN
                 '''

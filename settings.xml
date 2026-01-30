@@ -58,8 +58,8 @@ under the License.
      <id>snapshot</id>
      <repositories>
        <repository>
-         <id>nexus-snapshot-repo</id>
-         <name>your custom repo</name>
+         <id>nexus-webapp-repository</id>
+         <name>java-webapp-repository</name>
          <url>https://nexus.deetechpro.com/repository/java-webapp-repository/</url>
        </repository>
 	   
@@ -69,9 +69,9 @@ under the License.
      <id>release</id>
      <repositories>
        <repository>
-         <id>nexus-release-repo</id>
-         <name>your custom repo</name>
-         <url>https://nexus.deetechpro.com/repository/java-webapp-repository/</url>
+         <id>maven-releases</id>
+         <name>maven-releases</name>
+         <url>https://nexus.deetechpro.com/repository/maven-releases/</url>
        </repository>
      </repositories>
    </profile>
