@@ -11,7 +11,6 @@ pipeline {
         ORGANIZATION_NAME = "deetechpro"
         DOCKERHUB_USERNAME = "oluwaseyi12"
         REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${ORGANIZATION_NAME}-${SERVICE_NAME}:${BUILD_ID}"
-        //SCANNER_HOME= tool 'sonar-scanner'
     }
     
     stages {
@@ -21,20 +20,20 @@ pipeline {
             }
         }
 
-        // stage('Run Sonar Analysis') {
-        //     environment {
-        //         SONAR_TOKEN = credentials('SONARQUBE_TOKEN')
-        // }
-        //     steps {
-        //         sh '''
-        //         mvn clean verify -U sonar:sonar \
-        //             -Dsonar.projectKey=ekart-app-1 \
-        //             -Dsonar.organization=ekart-app-1 \
-        //             -Dsonar.host.url=https://sonarcloud.io \
-        //             -Dsonar.login=$SONAR_TOKEN
-        //         '''
-        //     }
-        // }
+        stage('Run Sonar Analysis') {
+            environment {
+                SONAR_TOKEN = credentials('SONARQUBE_TOKEN')
+        }
+            steps {
+                sh '''
+                mvn clean verify -U sonar:sonar \
+                    -Dsonar.projectKey=ekart-app-1 \
+                    -Dsonar.organization=ekart-app-1 \
+                    -Dsonar.host.url=https://sonarqube.deetechpro.com \
+                    -Dsonar.login=$SONAR_TOKEN
+                '''
+            }
+        }
 
         stage('Run SCA Analysis using Snyk') {
             steps {
@@ -46,20 +45,17 @@ pipeline {
                 }
             }
         }
-        
-        stage('Compile') {
-           steps {
-               sh 'java -version'
-               sh "mvn clean compile -DskipTests=true"
+        stage('Deploy to Nexus') {
+            steps {
+                // 'my-nexus-id' is the ID you gave the credential in Jenkins
+                withCredentials([usernamePassword(credentialsId: 'my-nexus-id', 
+                                                 usernameVariable: 'NEXUS_USER', 
+                                                 passwordVariable: 'NEXUS_PASSWORD')]) {
+                    sh "mvn clean compile -DskipTests=true"
+                    sh "mvn clean package -DskipTests=true"
+                    sh 'mvn deploy -s settings.xml'
+                }
             }
-        }
-        
-        stage('Build') {
-           steps {
-               sh "mvn clean package -DskipTests=true"
-            }
-        }
-        
         stage('Docker Build & Push') {
            steps {
                    withDockerRegistry([credentialsId: 'DOCKERHUB_USERNAME', url: ""]) {

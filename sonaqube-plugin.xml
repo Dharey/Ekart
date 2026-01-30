@@ -1,0 +1,13 @@
+<pluginGroups>
+    <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
+</pluginGroups>
+    <profile>
+        <id>nexus-deploy-creds</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <properties>
+
+            <sonar.host.url></sonar.host.url>
+        </properties>
+    </profile>
