@@ -117,10 +117,11 @@
 
 package com.reljicd.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotBlank;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 public class User {
@@ -129,15 +130,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
-    @Size(min = 2, max = 50)
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String username;
 
-    @NotEmpty
+    @NotBlank
     private String password;
 
     @Email
-    @NotEmpty
+    @NotBlank
     private String email;
 
     // Constructors

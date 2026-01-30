@@ -90,12 +90,12 @@
 
 
 package com.reljicd.model;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.math.BigDecimal;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotBlank;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 @Entity
 public class Product {
@@ -104,15 +104,15 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Size(min = 2, max = 100)
+    @NotBlank
+    @Size(min = 3, max = 100)
     private String name;
 
-    @NotNull
+    @NotBlank
     @Min(1)
     private int quantity;
 
-    @NotNull
+    @NotBlank
     @DecimalMin("0.01")
     private double price;
 
