@@ -47,7 +47,6 @@ pipeline {
         }
         stage('Deploy to Nexus') {
             steps {
-                // 'my-nexus-id' is the ID you gave the credential in Jenkins
                 withCredentials([usernamePassword(credentialsId: 'nexus-deploy-creds', 
                                     usernameVariable: 'NEXUS_USER', 
                                     passwordVariable: 'NEXUS_PASSWORD')]) {
