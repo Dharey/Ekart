@@ -14,6 +14,7 @@ pipeline {
     }
     
     stages {
+        // Checkout Repo
         stage('Git Checkout') {
             steps {
                 git branch: 'main', changelog: false, credentialsId: 'GitHubCred', poll: false, url: 'https://github.com/Dharey/Ekart.git'
