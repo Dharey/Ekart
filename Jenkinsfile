@@ -76,7 +76,7 @@ pipeline {
         }
         stage('Approval') {
             steps {
-                // CD - Approval Button with a timeout of 15 minutes.
+                // Approval Button with a timeout of 15 minutes.
                 timeout(time: 15, unit: "MINUTES") {
                     input message: 'Do you want to approve the deployment?', ok: 'Yes'
                 }
