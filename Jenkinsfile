@@ -27,7 +27,7 @@ pipeline {
             }
             steps {
                 sh '''
-                mvn clean
+                mvn clean install -U
                 rm -rf ~/.m2/repository/org/jacoco
                 mvn clean verify sonar:sonar \
                     -Dsonar.projectKey=ekart-app-1 \
