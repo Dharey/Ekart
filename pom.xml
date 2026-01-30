@@ -169,11 +169,11 @@
             <id>nexusdeploymentrepo</id>
             <url>https://nexus.deetechpro.com/repository/java-webapp-repository/</url>
         </repository>					
-        <repository>
+        <!-- <repository>
             <id>maven-releases</id>
             <name>maven-releases</name>
             <url>https://nexus.deetechpro.com/repository/maven-releases/</url>
-        </repository>
+        </repository> -->
         <snapshotRepository>
             <id>maven-snapshots</id>
             <name>maven-snapshots</name>
