@@ -11,18 +11,13 @@ pipeline {
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
         SERVICE_NAME = "shopping-cart"
         ORGANIZATION_NAME = "deetechpro"
-        DOCKERHUB_USERNAME = "oluwaseyi12"
-        REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${ORGANIZATION_NAME}-${SERVICE_NAME}:${env.BUILD_ID}"
+        REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${ORGANIZATION_NAME}-${SERVICE_NAME}:${BUILD_ID}"
     }
 
     stages {
-
         stage('Git Checkout') {
             steps {
-                git branch: 'main',
-                    changelog: false,
-                    poll: false,
-                    url: 'https://github.com/Dharey/Ekart.git'
+                git branch: 'main', url: 'https://github.com/Dharey/Ekart.git', credentialsId: 'GitHubCred'
             }
         }
 
@@ -32,8 +27,9 @@ pipeline {
             }
             steps {
                 sh '''
-                mvn clean verify -U sonar:sonar \
+                mvn clean verify sonar:sonar \
                     -Dsonar.projectKey=ekart-app-1 \
+                    -Dsonar.organization=ekart-app-1 \
                     -Dsonar.host.url=https://sonarqube.deetechpro.com \
                     -Dsonar.login=$SONAR_TOKEN
                 '''
@@ -43,65 +39,54 @@ pipeline {
         stage('Run SCA Analysis using Snyk') {
             steps {
                 withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
-                    sh '''
-                        snyk auth $SNYK_TOKEN
-                        mvn snyk:test -fn
-                    '''
+                    sh 'snyk auth $SNYK_TOKEN && mvn snyk:test -fn'
                 }
             }
         }
 
         stage('Deploy to Nexus') {
             steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'nexus-deploy-creds', 
-                    usernameVariable: 'NEXUS_USER', 
-                    passwordVariable: 'NEXUS_PASSWORD'
-                )]) {
-                    sh "mvn clean compile -DskipTests=true"
-                    sh "mvn clean package -DskipTests=true"
-                    sh 'mvn deploy -s settings.xml'
+                withCredentials([usernamePassword(credentialsId: 'nexus-deploy-creds',
+                        usernameVariable: 'NEXUS_USER',
+                        passwordVariable: 'NEXUS_PASSWORD')]) {
+                    sh 'mvn clean package deploy -s settings.xml -DskipTests=true'
                 }
             }
         }
 
         stage('Docker Build & Push') {
             steps {
-                withDockerRegistry([credentialsId: 'DOCKERHUB_USERNAME', url: ""]) {
-                    sh "docker build -t ${REPOSITORY_TAG} ."
-                    sh "docker push ${REPOSITORY_TAG}"
+                withDockerRegistry([credentialsId: 'DOCKERHUB_USERNAME', url: '']) {
+                    sh 'docker build -t ${REPOSITORY_TAG} .'
+                    sh 'docker push ${REPOSITORY_TAG}'
                 }
             }
         }
 
-        stage("Install kubectl") {
+        stage('Install kubectl') {
             steps {
                 sh '''
-                    STABLE=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-                    curl -LO https://storage.googleapis.com/kubernetes-release/release/$STABLE/bin/linux/amd64/kubectl
-                    chmod +x ./kubectl
-                    ./kubectl version --client
+                curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+                chmod +x ./kubectl
+                ./kubectl version --client
                 '''
             }
         }
 
         stage('Approval') {
             steps {
-                timeout(time: 15, unit: "MINUTES") {
-                    input message: 'Do you want to approve the deployment?', ok: 'Yes'
+                timeout(time: 15, unit: 'MINUTES') {
+                    input message: 'Approve deployment?', ok: 'Yes'
                 }
-                echo "Deployment Approved"
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
                 withKubeConfig([credentialsId: 'kubernetes']) {
-                    script {
-                        sh '''
-                            envsubst < ${WORKSPACE}/deploymentservice.yml | ./kubectl apply -f -
-                        '''
-                    }
+                    sh '''
+                    envsubst < ${WORKSPACE}/deploymentservice.yml | ./kubectl apply -f -
+                    '''
                 }
             }
         }
